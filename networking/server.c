@@ -3,12 +3,11 @@
 #include <stdlib.h>
 #include <stdio.h>
 #include <unistd.h>
+#include "connection.h"
 
 void defaultlaunch(struct Server *server){
-    int newSocket , valread;
+    int newSocket;
     int adressLen = sizeof(server->adress);
-
-    char buffer[10000];
 
     while (1){
         printf("******Server Waiting For Request******\n");
@@ -16,11 +15,8 @@ void defaultlaunch(struct Server *server){
             perror("Server could not accept connection");
             exit(EXIT_FAILURE);
         }
-
-        valread = read(newSocket, buffer, 10000);
-        printf("%s\n",buffer);
-
-        close(newSocket);
+        
+        handleConnection(&newSocket);
     }
 }
 
